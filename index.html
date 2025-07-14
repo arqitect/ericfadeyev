@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eric Fadeyev | Portfolio</title>
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Link to your external stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Vanilla-Tilt.js for interactive card effect -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+</head>
+<body class="antialiased">
+
+    <canvas id="background-canvas"></canvas>
+
+    <div class="relative min-h-screen px-4 sm:px-6 lg:px-8">
+        
+        <header class="fixed top-0 left-0 right-0 z-10 glass-panel shadow-md">
+            <div class="container mx-auto max-w-4xl px-4">
+                <nav class="flex items-center justify-between h-20">
+                    <a href="#" class="text-2xl font-bold text-white hover:text-indigo-400 transition-colors">Eric Fadeyev</a>
+                    
+                    <div class="hidden md:flex items-center space-x-8">
+                        <a href="#about" class="px-4 py-2 text-gray-300 hover:text-white transition-colors rounded-md">About</a>
+                        <a href="#projects" class="px-4 py-2 text-gray-300 hover:text-white transition-colors rounded-md">Projects</a>
+                        <a href="#contact" class="px-4 py-2 text-gray-300 hover:text-white transition-colors rounded-md">Contact</a>
+                    </div>
+
+                    <div class="md:hidden">
+                        <button id="mobile-menu-button" class="hamburger-icon text-gray-300 hover:text-white focus:outline-none p-2">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path class="line line-1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16"></path>
+                                <path class="line line-2" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12h16"></path>
+                                <path class="line line-3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 18h16"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </nav>
+            </div>
+            <div id="mobile-menu" class="md:hidden glass-panel">
+                <a href="#about" class="block py-3 px-4 text-sm text-gray-200 hover:bg-gray-700">About</a>
+                <a href="#projects" class="block py-3 px-4 text-sm text-gray-200 hover:bg-gray-700">Projects</a>
+                <a href="#contact" class="block py-3 px-4 text-sm text-gray-200 hover:bg-gray-700">Contact</a>
+            </div>
+        </header>
+
+        <main class="container mx-auto max-w-5xl pt-20">
+
+            <section id="home" class="flex items-center justify-center text-center min-h-[calc(100vh-5rem)]">
+                <div>
+                    <h1 class="prismatic-text text-4xl md:text-6xl font-extrabold tracking-tight leading-snug">
+                        Hello, I'm Eric Fadeyev.
+                    </h1>
+                    <p class="mt-6 text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
+                        A Bioengineering and Computer Science student at UCSC, passionate about building the future of biotechnology. Also exploring visual storytelling through photography and film.
+                    </p>
+                    <a href="#projects" class="mt-8 inline-block bg-indigo-600 text-white font-semibold px-8 py-3 rounded-lg hover:bg-indigo-500 transition-transform transform hover:scale-105 shadow-lg">
+                        View My Work
+                    </a>
+                </div>
+            </section>
+
+            <section id="about" class="py-16 md:py-20 lg:py-32">
+                <div class="glass-panel p-8 md:p-12 rounded-2xl">
+                    <h2 class="text-3xl font-bold text-white mb-6">About Me</h2>
+                    <p class="text-gray-300 leading-relaxed mb-4">
+                        I am a sophomore at the University of California, Santa Cruz, pursuing a B.S. in Bioengineering with a concentration in Bioinformatics. My academic journey is driven by a fascination with the potential of computational tools to solve complex biological problems. Alongside my core studies, I am also diving deep into Computer Science to build a robust technical foundation.
+                    </p>
+                    <p class="text-gray-300 leading-relaxed">
+                        Beyond the lab and the command line, I am passionate about visual storytelling through photography and filmography. These creative outlets allow me to capture moments, explore different perspectives, and communicate ideas in a powerful way. I am always looking for opportunities to merge my technical skills with my creative interests.
+                    </p>
+                </div>
+            </section>
+
+            <section id="projects" class="py-16 md:py-20 lg:py-32">
+                <h2 class="text-3xl font-bold text-white mb-12 text-center">Projects</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <div class="glass-panel interactive-tilt rounded-2xl overflow-hidden group">
+                        <img data-text="Project+1" alt="Project 1 Thumbnail" class="project-thumbnail w-full h-48 object-cover">
+                        <div class="p-6" style="transform: translateZ(20px);">
+                            <h3 class="text-xl font-bold text-white mb-2">Computational Biology Research</h3>
+                            <p class="text-gray-400 mb-4">A brief description of the project, its goals, and the technologies used.</p>
+                            <a href="#" class="text-indigo-400 font-semibold hover:text-indigo-300">Learn More &rarr;</a>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel interactive-tilt rounded-2xl overflow-hidden group">
+                        <img data-text="Photography" alt="Project 2 Thumbnail" class="project-thumbnail w-full h-48 object-cover">
+                        <div class="p-6" style="transform: translateZ(20px);">
+                            <h3 class="text-xl font-bold text-white mb-2">Urban Landscapes</h3>
+                            <p class="text-gray-400 mb-4">A photography series capturing the hidden beauty of city life and architecture.</p>
+                            <a href="#" class="text-indigo-400 font-semibold hover:text-indigo-300">View Gallery &rarr;</a>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel interactive-tilt rounded-2xl overflow-hidden group">
+                        <img data-text="Film+Project" alt="Project 3 Thumbnail" class="project-thumbnail w-full h-48 object-cover">
+                        <div class="p-6" style="transform: translateZ(20px);">
+                            <h3 class="text-xl font-bold text-white mb-2">Short Film: "Query"</h3>
+                            <p class="text-gray-400 mb-4">A short documentary exploring the daily lives of students in STEM fields.</p>
+                            <a href="#" class="text-indigo-400 font-semibold hover:text-indigo-300">Watch Film &rarr;</a>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section id="contact" class="py-16 md:py-20 lg:py-32 text-center">
+                <h2 class="text-3xl font-bold text-white mb-6">Get In Touch</h2>
+                <p class="text-gray-400 max-w-xl mx-auto mb-8">
+                    I'm always open to discussing new projects, creative ideas, or opportunities to be part of an ambitious vision. Feel free to reach out.
+                </p>
+                <a href="mailto:youremail@example.com" class="bg-indigo-600 text-white font-semibold px-8 py-3 rounded-lg hover:bg-indigo-500 transition-transform transform hover:scale-105 shadow-lg">
+                    Say Hello
+                </a>
+            </section>
+
+        </main>
+
+        <footer class="text-center py-8 text-gray-500">
+            <p>&copy; 2025 Eric Fadeyev. All Rights Reserved.</p>
+        </footer>
+
+    </div>
+
+    <!-- Link to your external JavaScript file -->
+    <script src="script.js"></script>
+
+</body>
+</html>
