@@ -1,0 +1,86 @@
+/* ============================================
+CSS COLOR & INTENSITY VARIABLES
+============================================ */
+:root {
+    --color-bg: #111827;
+    --color-text: #E5E7EB;
+    --color-accent: #4F46E5;
+    --color-glass-bg: rgba(17, 24, 39, 0.4);
+    --color-glass-border: rgba(255, 255, 255, 0.1);
+    --lava-blur: 100px;
+    --lava-brightness: 0.6;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+}
+
+#background-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    filter: blur(var(--lava-blur)) brightness(var(--lava-brightness)); 
+    -webkit-filter: blur(var(--lava-blur)) brightness(var(--lava-brightness));
+}
+
+.glass-panel {
+    background-color: var(--color-glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--color-glass-border);
+    transform-style: preserve-3d;
+}
+
+/* Prismatic text effect styles */
+.prismatic-text {
+    /* Clip the background to the text shape */
+    -webkit-background-clip: text;
+    background-clip: text;
+    
+    /* Make the text color transparent to show the dynamic background */
+    color: transparent;
+    
+    /* A subtle shadow to help with legibility */
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+
+    /* Default state for the gradient before mouse movement */
+    background-image: 
+        radial-gradient(circle at 40% 40%, #FFFFFF 0%, #D1D5DB 15%, transparent 30%),
+        radial-gradient(circle at 70% 60%, #E5E7EB 0%, #9CA3AF 20%, transparent 40%),
+        radial-gradient(circle at 20% 70%, #F3F4F6 0%, #6B7280 25%, transparent 50%);
+    background-size: 150% 150%;
+    line-height: 1.2;
+    overflow: visible;         /* Add this line */
+    padding-top: 0.2em;        /* Add this line */
+    padding-bottom: 0.2em;     /* Add this line */
+}
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--color-bg); }
+::-webkit-scrollbar-thumb {
+    background-color: var(--color-accent);
+    border-radius: 10px;
+    border: 2px solid var(--color-bg);
+}
+
+/* ============================================
+ANIMATED HAMBURGER MENU STYLES
+============================================ */
+#mobile-menu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+#mobile-menu.open { max-height: 500px; }
+.hamburger-icon .line {
+    transition: transform 0.3s ease-in-out, opacity 0.2s ease-in-out;
+    transform-origin: center;
+}
+.hamburger-icon.open .line-1 { transform: translateY(8px) rotate(45deg); }
+.hamburger-icon.open .line-2 { opacity: 0; }
+.hamburger-icon.open .line-3 { transform: translateY(-8px) rotate(-45deg); }
