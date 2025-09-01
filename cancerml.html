@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Project: AI for Cancer Subtype Classification</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #020617; /* slate-950 */
+        }
+        .section-card {
+            background: rgba(15, 23, 42, 0.5); /* slate-900 with opacity */
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(51, 65, 85, 0.5); /* slate-700 with opacity */
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .section-card.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .slider-thumb::-webkit-slider-thumb {
+            -webkit-appearance: none; appearance: none; width: 20px; height: 20px;
+            background: #60a5fa; border-radius: 50%; cursor: pointer;
+            transition: background 0.2s ease-in-out;
+        }
+        .slider-thumb::-moz-range-thumb {
+            width: 20px; height: 20px; background: #60a5fa;
+            border-radius: 50%; cursor: pointer;
+        }
+        .prob-bar-inner {
+            transition: width 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .stat-card {
+            background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(71, 85, 105, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.2);
+        }
+    </style>
+</head>
+<body class="text-slate-300">
+
+    <!-- Header Section -->
+    <header class="text-center py-16 px-4">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white">AI for Oncology</h1>
+            <h2 class="text-xl md:text-2xl font-medium text-blue-400 mt-4">Classifying Breast Cancer Subtypes from Gene Expression Data</h2>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto p-4 space-y-24 pb-24">
+        
+        <!-- The Problem Section -->
+        <section id="the-problem" class="section-card rounded-2xl p-8 md:p-12">
+            <h2 class="text-3xl font-bold text-white mb-4">The Challenge: Why Subtypes Matter</h2>
+            <p class="text-slate-400 leading-relaxed">
+                Breast cancer is not a single disease. It's a collection of distinct molecular subtypes, each with a different prognosis and response to treatment. Accurately identifying a tumor's subtype is critical for personalized medicine. This project tackles the challenge of automating this classification using machine learning, analyzing the complex genetic signatures within tumor cells to make a prediction.
+            </p>
+        </section>
+
+        <!-- The Data Section -->
+        <section id="the-data" class="section-card rounded-2xl p-8 md:p-12">
+            <h2 class="text-3xl font-bold text-white mb-6">The Data: The Cancer Genome Atlas (TCGA)</h2>
+            <p class="text-slate-400 leading-relaxed mb-8">
+                This model was trained on a publicly available dataset from The Cancer Genome Atlas (TCGA), a landmark cancer genomics program. We used mRNA expression data, which quantifies the activity level of thousands of genes within each tumor sample.
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+                <div class="stat-card p-6 rounded-lg">
+                    <div class="text-4xl font-extrabold text-blue-400">995</div>
+                    <div class="text-sm text-slate-400 mt-1">Tumor Samples</div>
+                </div>
+                <div class="stat-card p-6 rounded-lg">
+                    <div class="text-4xl font-extrabold text-blue-400">20,531</div>
+                    <div class="text-sm text-slate-400 mt-1">Gene Features</div>
+                </div>
+                 <div class="stat-card p-6 rounded-lg">
+                    <div class="text-4xl font-extrabold text-blue-400">4</div>
+                    <div class="text-sm text-slate-400 mt-1">Cancer Subtypes</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Model & Results Section -->
+        <section id="the-model" class="section-card rounded-2xl p-8 md:p-12">
+             <h2 class="text-3xl font-bold text-white mb-6">The Model: A Random Forest Classifier</h2>
+            <div class="flex flex-col md:flex-row items-center gap-8">
+                <div class="md:w-3/5 text-left">
+                     <p class="text-slate-400 leading-relaxed mb-4">A Random Forest model was chosen for this task. Think of it as a "team" of many individual decision trees. Each tree gets a vote on the cancer subtype, and the model's final prediction is based on the majority vote. This "wisdom of the crowd" approach makes it highly accurate and robust against noise in the data.</p>
+                     <p class="text-slate-400 leading-relaxed">After training, the model was evaluated on a held-out test set it had never seen before.</p>
+                </div>
+                <div class="md:w-2/5 flex flex-col items-center justify-center">
+                    <div id="accuracy-circle" class="relative w-40 h-40">
+                         <svg class="w-full h-full" viewBox="0 0 100 100">
+                            <circle class="text-slate-700" stroke-width="8" stroke="currentColor" fill="transparent" r="45" cx="50" cy="50" />
+                            <circle id="accuracy-progress" class="text-blue-500" stroke-width="8" stroke="currentColor" fill="transparent" r="45" cx="50" cy="50" stroke-linecap="round" transform="rotate(-90 50 50)" style="stroke-dasharray: 283; stroke-dashoffset: 283; transition: stroke-dashoffset 2s ease-out;"/>
+                        </svg>
+                        <div id="accuracy-text" class="absolute inset-0 flex flex-col items-center justify-center text-3xl font-bold text-white">0%</div>
+                    </div>
+                     <p class="text-slate-400 mt-3 font-semibold">Prediction Accuracy</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Demo Section -->
+        <section id="the-demo" class="section-card rounded-2xl p-8 md:p-12">
+            <h2 class="text-3xl font-bold text-white mb-2">Interactive Model Demonstration</h2>
+            <p class="text-slate-400 mb-8">This simulation shows how the model's prediction changes based on the expression levels of the most important genes. Adjust the sliders (representing Z-scores) to see the impact in real-time.</p>
+            
+            <div class="w-full max-w-xl mx-auto bg-slate-900/50 rounded-xl p-6">
+                 <!-- Prediction Output -->
+                <div class="my-4">
+                     <p class="text-slate-400">Predicted Subtype</p>
+                     <p id="prediction-output" class="text-5xl font-extrabold my-2 transition-colors duration-500">Luminal A</p>
+                </div>
+
+                <!-- Animated Probability Bars -->
+                <div class="w-full my-6">
+                    <div id="probability-bars" class="space-y-3"></div>
+                </div>
+
+                <!-- Gene Sliders -->
+                <div class="border-t border-slate-700/50 pt-6">
+                     <div id="gene-sliders" class="space-y-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Feature Importance Section -->
+        <section id="feature-importance" class="section-card rounded-2xl p-8 md:p-12">
+            <h2 class="text-3xl font-bold text-white mb-4">Connecting AI to Biology</h2>
+            <p class="text-slate-400 leading-relaxed mb-8">
+                A key part of this project was not just building a predictive model, but understanding *why* it works. By analyzing the model, we can extract the most influential genes it uses to make decisions. This confirms our model has learned biologically relevant patterns. For example, high expression of **ESR1** is a known and critical biomarker for Luminal-type breast cancers.
+            </p>
+            <div id="importance-chart-container" class="bg-slate-900/50 p-6 rounded-lg">
+                <!-- Chart will be dynamically generated here -->
+            </div>
+        </section>
+    </main>
+
+    <footer class="text-center py-12 border-t border-slate-800">
+        <p class="text-slate-500">Project by Eric Fadeyev. For a detailed breakdown of the code and analysis, please visit the <a href="https://github.com/arqitect/carcinoma_ml" target="_blank" class="text-blue-400 hover:underline">GitHub Repository</a>.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- INTERACTIVE DEMO LOGIC ---
+            const slidersContainer = document.getElementById('gene-sliders');
+            const predictionOutput = document.getElementById('prediction-output');
+            const probabilityContainer = document.getElementById('probability-bars');
+
+            const topGenes = ['FOXA1', 'CENPA', 'ESR1', 'GABRP', 'GPR77', 'CA12', 'CT62', 'CDKN3', 'DRAIC', 'TTLL4'];
+            const subtypes = ['BRCA_LumA', 'BRCA_LumB', 'BRCA_Her2', 'BRCA_Basal'];
+            const subtypeStyles = {
+                'BRCA_LumA': { bar: 'bg-blue-500', text: 'text-blue-400' },
+                'BRCA_LumB': { bar: 'bg-sky-500', text: 'text-sky-400' },
+                'BRCA_Her2': { bar: 'bg-pink-500', text: 'text-pink-400' },
+                'BRCA_Basal': { bar: 'bg-purple-500', text: 'text-purple-400' }
+            };
+
+            // --- IMPORTANT: RERUN THE COLAB SCRIPT TO GET NEW WEIGHTS FOR THESE GENES ---
+            const geneWeights = {
+                "FOXA1": { "BRCA_Basal": -0.65, "BRCA_Her2": -0.25, "BRCA_LumA": 0.5, "BRCA_LumB": 0.4 },
+                "CENPA": { "BRCA_Basal": 0.5, "BRCA_Her2": 0.3, "BRCA_LumA": -0.4, "BRCA_LumB": 0.2 },
+                "ESR1": { "BRCA_Basal": -0.8751, "BRCA_Her2": -0.2199, "BRCA_LumA": 0.6011, "BRCA_LumB": 0.4939 },
+                "GABRP": { "BRCA_Basal": 0.6, "BRCA_Her2": -0.1, "BRCA_LumA": -0.7, "BRCA_LumB": -0.5 },
+                "GPR77": { "BRCA_Basal": -0.2, "BRCA_Her2": 0.8, "BRCA_LumA": 0.1, "BRCA_LumB": 0.3 },
+                "CA12": { "BRCA_Basal": -0.5, "BRCA_Her2": 0.1, "BRCA_LumA": 0.6, "BRCA_LumB": 0.4 },
+                "CT62": { "BRCA_Basal": 0.1, "BRCA_Her2": 0.2, "BRCA_LumA": -0.1, "BRCA_LumB": -0.2 },
+                "CDKN3": { "BRCA_Basal": 0.4, "BRCA_Her2": 0.1, "BRCA_LumA": -0.3, "BRCA_LumB": 0.0 },
+                "DRAIC": { "BRCA_Basal": -0.1, "BRCA_Her2": -0.1, "BRCA_LumA": 0.2, "BRCA_LumB": 0.1 },
+                "TTLL4": { "BRCA_Basal": 0.2, "BRCA_Her2": -0.2, "BRCA_LumA": 0.1, "BRCA_LumB": 0.0 }
+            };
+            // --- END OF REPLACEMENT ---
+            
+            let geneValues = {};
+
+            topGenes.forEach(gene => {
+                const initialValue = 0;
+                geneValues[gene] = initialValue;
+                const sliderWrapper = document.createElement('div');
+                sliderWrapper.innerHTML = `
+                    <div class="flex justify-between items-center mb-1">
+                        <label for="${gene}-slider" class="font-medium text-sm text-slate-300">${gene}</label>
+                        <span id="${gene}-value" class="text-sm bg-slate-700 px-2 py-0.5 rounded">${initialValue.toFixed(1)}</span>
+                    </div>
+                    <input type="range" id="${gene}-slider" min="-3" max="3" value="${initialValue}" step="0.1" class="w-full h-2 bg-slate-700/50 rounded-lg appearance-none cursor-pointer slider-thumb">
+                `;
+                slidersContainer.appendChild(sliderWrapper);
+                document.getElementById(`${gene}-slider`).addEventListener('input', (e) => {
+                    geneValues[gene] = parseFloat(e.target.value);
+                    document.getElementById(`${gene}-value`).textContent = geneValues[gene].toFixed(1);
+                    updatePrediction();
+                });
+            });
+
+            function updatePrediction() {
+                let scores = { BRCA_LumA: 1, BRCA_LumB: 1, BRCA_Her2: 1, BRCA_Basal: 1 };
+                for (const gene in geneValues) {
+                    for (const subtype in scores) {
+                        scores[subtype] += geneValues[gene] * geneWeights[gene][subtype];
+                    }
+                }
+                let totalExpScore = Object.values(scores).reduce((sum, score) => sum + Math.exp(score), 0);
+                let probabilities = {};
+                let maxProb = 0;
+                let predictedSubtype = '';
+                
+                subtypes.forEach(subtype => {
+                    const finalProb = Math.exp(scores[subtype]) / totalExpScore;
+                    probabilities[subtype] = finalProb;
+                    if (finalProb > maxProb) {
+                        maxProb = finalProb;
+                        predictedSubtype = subtype;
+                    }
+                });
+
+                predictionOutput.textContent = predictedSubtype.replace('BRCA_', '');
+                predictionOutput.className = predictionOutput.className.replace(/text-(blue|sky|pink|purple)-400/g, '');
+                predictionOutput.classList.add(subtypeStyles[predictedSubtype].text);
+
+                probabilityContainer.innerHTML = '';
+                subtypes.forEach(subtype => {
+                    const prob = probabilities[subtype] * 100;
+                    const bar = document.createElement('div');
+                    bar.className = 'text-left';
+                    bar.innerHTML = `
+                        <div class="flex justify-between items-center mb-1 text-xs">
+                           <span class="font-semibold text-slate-300">${subtype.replace('BRCA_', '')}</span>
+                           <span class="text-slate-400">${prob.toFixed(1)}%</span>
+                        </div>
+                        <div class="w-full bg-slate-700/50 rounded-full h-2"><div class="prob-bar-inner ${subtypeStyles[subtype].bar} h-2 rounded-full" style="width: ${prob.toFixed(2)}%"></div></div>`;
+                    probabilityContainer.appendChild(bar);
+                });
+            }
+            updatePrediction();
+
+            // --- ANIMATION LOGIC ---
+            const animatedSections = document.querySelectorAll('.section-card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            animatedSections.forEach(section => observer.observe(section));
+            
+            // Accuracy circle animation
+            const accuracyCircle = document.getElementById('accuracy-circle');
+            const accuracyProgress = document.getElementById('accuracy-progress');
+            const accuracyText = document.getElementById('accuracy-text');
+            const radius = accuracyProgress.r.baseVal.value;
+            const circumference = 2 * Math.PI * radius;
+            accuracyProgress.style.strokeDasharray = circumference;
+            accuracyProgress.style.strokeDashoffset = circumference;
+            
+            const accuracyObserver = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    const targetAccuracy = 87.3;
+                    const offset = circumference - (targetAccuracy / 100) * circumference;
+                    accuracyProgress.style.strokeDashoffset = offset;
+                    
+                    let current = 0;
+                    const stepTime = 2000 / targetAccuracy;
+                    const timer = setInterval(() => {
+                        current += 1;
+                        accuracyText.textContent = `${Math.floor(current)}%`;
+                        if (current >= targetAccuracy) {
+                            clearInterval(timer);
+                             accuracyText.textContent = `${targetAccuracy}%`;
+                        }
+                    }, stepTime);
+
+                    accuracyObserver.unobserve(accuracyCircle);
+                }
+            });
+            accuracyObserver.observe(accuracyCircle);
+
+            // Feature importance chart
+            const importanceContainer = document.getElementById('importance-chart-container');
+            const importanceData = [
+                { gene: 'FOXA1', score: 0.0120 }, { gene: 'CENPA', score: 0.0101 },
+                { gene: 'ESR1', score: 0.0098 }, { gene: 'GABRP', score: 0.0095 },
+                { gene: 'GPR77', score: 0.0085 }, { gene: 'CA12', score: 0.0080 },
+                { gene: 'CT62', score: 0.0075 }, { gene: 'CDKN3', score: 0.0070 },
+                { gene: 'DRAIC', score: 0.0065 }, { gene: 'TTLL4', score: 0.0061 }
+            ];
+            const maxScore = Math.max(...importanceData.map(d => d.score));
+            
+            const chartHtml = importanceData.map(item => `
+                <div class="flex items-center group" style="opacity:0; transform: translateX(-20px); transition: opacity 0.5s ease, transform 0.5s ease;">
+                    <span class="w-20 text-right mr-4 text-sm font-medium text-slate-400">${item.gene}</span>
+                    <div class="flex-1 bg-slate-700/50 rounded-md h-6">
+                        <div class="bg-blue-500 h-6 rounded-md prob-bar-inner" style="width: 0%;" data-width="${(item.score / maxScore) * 100}%"></div>
+                    </div>
+                    <span class="w-16 ml-4 text-left text-sm text-slate-300 font-mono">${item.score.toFixed(3)}</span>
+                </div>
+            `).join('');
+
+            importanceContainer.innerHTML = `<h3 class="text-xl font-bold text-white mb-6">Top 10 Most Influential Genes</h3><div class="space-y-3">${chartHtml}</div>`;
+            
+            const chartBars = importanceContainer.querySelectorAll('.group');
+            const chartObserver = new IntersectionObserver((entries) => {
+                if(entries[0].isIntersecting) {
+                    chartBars.forEach((bar, index) => {
+                        setTimeout(() => {
+                            bar.style.opacity = 1;
+                            bar.style.transform = 'translateX(0)';
+                            const innerBar = bar.querySelector('.prob-bar-inner');
+                            innerBar.style.width = innerBar.dataset.width;
+                        }, index * 100);
+                    });
+                    chartObserver.unobserve(importanceContainer);
+                }
+            }, { threshold: 0.3 });
+            chartObserver.observe(importanceContainer);
+        });
+    </script>
+</body>
+</html>
+
